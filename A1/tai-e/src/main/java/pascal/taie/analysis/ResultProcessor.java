@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
@@ -119,7 +120,8 @@ public class ResultProcessor extends ProgramAnalysis {
 
     private void readInputs() {
         String input = getOptions().getString("file");
-        Path path = Path.of(input);
+        //Path path = Path.of(input);
+        Path path = Paths.get(input);
         try {
             inputs = Maps.newMultiMap();
             BufferedReader reader = Files.newBufferedReader(path);
@@ -129,7 +131,8 @@ public class ResultProcessor extends ProgramAnalysis {
                 Pair<String, String> key = extractKey(line);
                 if (key != null) {
                     currentKey = key;
-                } else if (!line.isBlank()) {
+               // } else if (!line.isBlank()) {
+                } else if (!line.isEmpty()) {
                     inputs.put(currentKey, line);
                 }
             }

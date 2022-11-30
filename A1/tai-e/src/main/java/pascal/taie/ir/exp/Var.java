@@ -217,11 +217,12 @@ public class Var implements LValue, RValue, Indexable {
 
         // Contract: if the following fields are empty, they must point to
         // Collections.emptyList();
-        private List<LoadField> loadFields = List.of();
-        private List<StoreField> storeFields = List.of();
-        private List<LoadArray> loadArrays = List.of();
-        private List<StoreArray> storeArrays = List.of();
-        private List<Invoke> invokes = List.of();
+        private List<LoadField> loadFields = new ArrayList<>();//List.of();
+
+        private List<StoreField> storeFields = new ArrayList<>();//List.of();
+        private List<LoadArray> loadArrays = new ArrayList<>();//List.of();
+        private List<StoreArray> storeArrays = new ArrayList<>();//List.of();
+        private List<Invoke> invokes = new ArrayList<>();//List.of();
 
         private List<LoadField> getLoadFields() {
             return unmodifiable(loadFields);
