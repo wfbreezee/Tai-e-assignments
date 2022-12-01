@@ -122,13 +122,21 @@ public class ConstantPropagation extends
             if(rValueList.size()==1){
                 Value val = evaluate(rValueList.get(0), in);
                 out.update(leftv, val);
+            } else if (rValueList.size()>1) {
+                for (Exp exp:rValueList) {
+                    if(exp instanceof BinaryExp) {
+                        Value val = evaluate(exp, in);
+                        out.update(leftv, val);
+                    }
+                    else{
+                        //等号右侧为其它表达式的赋值语句，例如方法调用（x = m(...)）和字段 load（x = o.f），
+                        // 你需要对它们进行保守的近似处理（也许会不够精确），即把它们当作 x = NAC。
+                       if(!(exp instanceof Var))
+                           out.update(leftv,Value.getNAC());
+                    }
+                }
             }
-            for (Exp exp:rValueList) {
-                  if(exp instanceof BinaryExp) {
-                      Value val = evaluate(exp, in);
-                      out.update(leftv, val);
-                  }
-            }
+
 
             return !old_out.equals(out);
         }
